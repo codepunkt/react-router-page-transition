@@ -127,6 +127,10 @@ body {
 		&:hover {
 			background: #eee;
 		}
+
+		&-active {
+			border-bottom: 5px solid #bada55;
+		}
 	}
 
 	&_list {

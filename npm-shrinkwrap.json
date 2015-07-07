@@ -2182,6 +2182,18 @@
       "from": "react-a11y@*",
       "resolved": "https://registry.npmjs.org/react-a11y/-/react-a11y-0.2.6.tgz"
     },
+    "react-document-title": {
+      "version": "1.0.2",
+      "from": "react-document-title@*",
+      "resolved": "https://registry.npmjs.org/react-document-title/-/react-document-title-1.0.2.tgz",
+      "dependencies": {
+        "react-side-effect": {
+          "version": "0.3.0",
+          "from": "react-side-effect@>=0.3.0 <0.4.0",
+          "resolved": "https://registry.npmjs.org/react-side-effect/-/react-side-effect-0.3.0.tgz"
+        }
+      }
+    },
     "react-hot-loader": {
       "version": "1.2.7",
       "from": "react-hot-loader@>=1.2.7 <2.0.0",
