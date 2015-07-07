@@ -1,16 +1,142 @@
-body {
-	background: orange;
-	margin: 0;
+@import 'normalize.css/normalize';
+@import 'flexboxgrid/src/css/flexboxgrid';
 
-	h1 {
-		color: white;
-	}
+body {
+	background: #f2f1f1;
+	margin: 0;
 }
 
 .header {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
 	background: white;
 	height: 80px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	width: 100%;
+	box-shadow: 0 0 3px 0 rgba(0, 0, 0, .15);
+	z-index: 1000;
+}
+
+.page {
+	background: #fff;
+	transition: all 1.6s;
+}
+
+.page-enter, .page-appear {
+	background: #ffe;
+
+	.header, .main {
+		transition: all .8s ease-in-out .8s;
+		opacity: 0;
+	}
+
+	.header {
+		margin-top: -80px;
+	}
+}
+
+.page-enter-active, .page-appear-active {
+	background: #fff;
+
+	.header, .main {
+		opacity: 1;
+	}
+
+	.header {
+		margin-top: 0;
+	}
+}
+
+.page-leave {
+	background: #fff;
+
+	.header, .main {
+		transition: all .8s ease-in-out;
+		opacity: 1;
+	}
+
+	.header {
+		margin-top: 0;
+	}
+}
+
+.page-leave-active {
+	background: #ffe;
+
+	.header, .main {
+		opacity: 0;
+	}
+
+	.header {
+		margin-top: -80px;
+	}
+}
+
+
+
+.main {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	right: 0;
+}
+
+.container {
+	margin: 0 auto;
+	width: 940px;
+}
+
+@media screen and (min-width: 1200px) {
+	.container {
+		width: 1170px;
+	}
+}
+
+@media screen and (max-width: 979px) and (min-width: 768px) {
+	.container {
+		width: 724px;
+	}
+}
+
+@media (max-width: 767px) {
+	.container {
+		width: 80%;
+	}
+}
+
+@media (max-width: 567px) {
+	.container {
+		width: 90%;
+	}
+}
+
+.menu {
+	&_item {
+		display: inline-block;
+	}
+
+	&_link {
+		display: block;
+		height: 80px;
+		line-height: 80px;
+		padding: 0 10px;
+		text-decoration: none;
+		color: #666;
+
+		&:hover {
+			background: #eee;
+		}
+	}
+
+	&_list {
+		list-style-type: none;
+		float: right;
+		margin: 0;
+		padding: 0;
+	}
+}
+
+html, * {
+	box-sizing: border-box;
 }
