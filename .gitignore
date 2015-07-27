@@ -5,6 +5,7 @@
 
 # workspace files are user-specific
 *.sublime-workspace
+*.sublime-project
 
 # npm modules folder
 node_modules
