@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import Router, { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
-import './styles/main.css';
+import './app.css';
 
 // @todo alias to nothing with webpack in production
 import a11y from 'react-a11y';
