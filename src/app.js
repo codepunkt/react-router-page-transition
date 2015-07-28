@@ -1,5 +1,6 @@
 import React from 'react/addons';
-import Router, { Link } from 'react-router';
+import { Link, Router, Route } from 'react-router';
+import BrowserHistory from 'react-router/lib/BrowserHistory'
 import DocumentTitle from 'react-document-title';
 import './app.css';
 
@@ -17,19 +18,19 @@ class Header extends React.Component {
             <nav className="menu col-xs-9" role="navigation">
               <ul className="menu_list">
                 <li className="menu_item">
-                  <Router.Link className="menu_link" activeClassName="menu_link-active" to="home_page">
+                  <Link className="menu_link" activeClassName="menu_link-active" to="/">
                     Home
-                  </Router.Link>
+                  </Link>
                 </li>
                 <li className="menu_item">
-                  <Router.Link className="menu_link" activeClassName="menu_link-active" to="first_page">
+                  <Link className="menu_link" activeClassName="menu_link-active" to="/first">
                     Page #1
-                  </Router.Link>
+                  </Link>
                 </li>
                 <li className="menu_item">
-                  <Router.Link className="menu_link" activeClassName="menu_link-active" to="second_page">
+                  <Link className="menu_link" activeClassName="menu_link-active" to="/second">
                     Page #2
-                  </Router.Link>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -41,14 +42,25 @@ class Header extends React.Component {
 }
 
 class App extends React.Component {
+  renderChildren() {
+    return React.Children.map(this.props.children, (child) => {
+      return React.addons.cloneWithProps(child, {
+        key: this.props.location.pathname
+      });
+    });
+  }
+
   render() {
     return (
       <React.addons.CSSTransitionGroup transitionName="page" transitionAppear={true}>
-        <Router.RouteHandler key={this.context.router.getCurrentPath()} />
+        {this.renderChildren()}
       </React.addons.CSSTransitionGroup>
     );
   }
 }
+
+// @todo context.router.state.location.pathname instead of getCurrentPath?
+// @todo double activeClass links?
 
 App.contextTypes = {
   router: React.PropTypes.func.isRequired
@@ -99,14 +111,12 @@ class SecondPage extends React.Component {
   }
 }
 
-let routes = (
-  <Router.Route handler={App}>
-    <Router.DefaultRoute name="home_page" handler={HomePage}/>
-    <Router.Route path="first" name="first_page" handler={FirstPage} />
-    <Router.Route path="second" name="second_page" handler={SecondPage} />
-  </Router.Route>
-);
-
-Router.run(routes, Router.HistoryLocation, (Handler) => {
-  React.render(<Handler/>, document.body);
-});
+React.render((
+  <Router history={new BrowserHistory}>
+    <Route component={App}>
+      <Route path="/" component={HomePage} />
+      <Route path="first" component={FirstPage} />
+      <Route path="second" component={SecondPage} />
+    </Route>
+  </Router>
+), document.body);

@@ -46,7 +46,7 @@
     "react-a11y": "^0.2.6",
     "react-document-title": "^1.0.2",
     "react-hot-loader": "^1.2.7",
-    "react-router": "^0.13.3",
+    "react-router": "1.0.0-beta3",
     "rimraf": "^2.4.0",
     "style-loader": "^0.12.2",
     "surge": "^0.14.2",
