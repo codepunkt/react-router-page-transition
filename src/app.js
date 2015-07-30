@@ -52,25 +52,22 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.addons.CSSTransitionGroup transitionName="page" transitionAppear={true}>
+      <React.addons.TransitionGroup transitionName="page" transitionAppear={true}>
         {this.renderChildren()}
-      </React.addons.CSSTransitionGroup>
+      </React.addons.TransitionGroup>
     );
   }
 }
 
-// @todo context.router.state.location.pathname instead of getCurrentPath?
 // @todo double activeClass links?
-
-App.contextTypes = {
-  router: React.PropTypes.func.isRequired
-};
 
 class Page extends React.Component {
   render() {
+    let className = this.props.className ? `page ${this.props.className}` : 'page';
+
     return (
       <DocumentTitle title={this.props.title}>
-        <div className="page">
+        <div className={className}>
           <Header />
           <main className="main" role="main">
             <div className="container">{this.props.children}</div>
@@ -81,30 +78,69 @@ class Page extends React.Component {
   }
 }
 
+function animate() {
+  const TICK = 17;
+
+  return Component => class Page extends Component {
+    static displayName = `Page(${Component.displayName || Component.name})`;
+
+    constructor() {
+      super();
+      this.state = { className: '' };
+    }
+
+    setClassName(name) {
+      this.setState({ className: `page-${name}` });
+    }
+
+    componentWillAppear(callback) {
+      React.findDOMNode(this).addEventListener('transitionend', callback);
+      setTimeout((() => this.setClassName('appear')), TICK);
+    }
+
+    componentWillEnter(callback) {
+      React.findDOMNode(this).addEventListener('transitionend', callback);
+      setTimeout((() => this.setClassName('enter')), TICK);
+    }
+
+    componentWillLeave(callback) {
+      React.findDOMNode(this).addEventListener('transitionend', callback);
+      setTimeout((() => this.setClassName('leave')), TICK);
+    }
+
+    render() {
+      return <Component className={this.state.className} />;
+    }
+  };
+}
+
+@animate()
 class HomePage extends React.Component {
   render() {
     return (
-      <Page title="Home Page">
+      <Page title="Home Page" {...this.props}>
         Home Page
       </Page>
     );
   }
 }
 
+@animate()
 class FirstPage extends React.Component {
   render() {
     return (
-      <Page title="First Page">
+      <Page title="First Page" {...this.props}>
         First Page
       </Page>
     );
   }
 }
 
+@animate()
 class SecondPage extends React.Component {
   render() {
     return (
-      <Page title="Second Page">
+      <Page title="Second Page" {...this.props}>
         Second Page
       </Page>
     );
@@ -115,8 +151,8 @@ React.render((
   <Router history={new BrowserHistory}>
     <Route component={App}>
       <Route path="/" component={HomePage} />
-      <Route path="first" component={FirstPage} />
-      <Route path="second" component={SecondPage} />
+      <Route path="/first" component={FirstPage} />
+      <Route path="/second" component={SecondPage} />
     </Route>
   </Router>
 ), document.body);
