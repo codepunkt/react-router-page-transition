@@ -52,7 +52,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.addons.TransitionGroup transitionName="page" transitionAppear={true}>
+      <React.addons.TransitionGroup>
         {this.renderChildren()}
       </React.addons.TransitionGroup>
     );
@@ -79,33 +79,30 @@ class Page extends React.Component {
 }
 
 function animate() {
-  const TICK = 17;
-
-  return Component => class Page extends Component {
-    static displayName = `Page(${Component.displayName || Component.name})`;
+  return Component => class Animate extends Component {
+    static displayName = `Animate(${Component.displayName || Component.name})`;
 
     constructor() {
       super();
       this.state = { className: '' };
     }
 
-    setClassName(name) {
-      this.setState({ className: `page-${name}` });
+    transition(name, callback) {
+      const TICK = 17;
+      React.findDOMNode(this).addEventListener('transitionend', callback);
+      setTimeout((() => this.setState({ className: `page-${name}` })), TICK);
     }
 
     componentWillAppear(callback) {
-      React.findDOMNode(this).addEventListener('transitionend', callback);
-      setTimeout((() => this.setClassName('appear')), TICK);
+      this.transition('appear', callback);
     }
 
     componentWillEnter(callback) {
-      React.findDOMNode(this).addEventListener('transitionend', callback);
-      setTimeout((() => this.setClassName('enter')), TICK);
+      this.transition('enter', callback);
     }
 
     componentWillLeave(callback) {
-      React.findDOMNode(this).addEventListener('transitionend', callback);
-      setTimeout((() => this.setClassName('leave')), TICK);
+      this.transition('leave', callback);
     }
 
     render() {
