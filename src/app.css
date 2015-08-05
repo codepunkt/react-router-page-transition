@@ -20,97 +20,40 @@ body {
 
 .page {
 	background: #fff;
-}
-
-
-
-.header, .main {
 	opacity: 0;
-}
-.header {
-	margin-top: -80px;
-}
-.page-leave {
-	.header, .main {
-		transition: all .5s ease-in-out;
-		opacity: 0;
-	}
+
 	.header {
+		margin-top: -80px;
+	}
+}
+
+.page-leave {
+	transition: opacity .5s ease-in-out;
+	opacity: 0;
+
+	.header {
+		transition: margin-top .5s ease-in-out;
 		margin-top: -80px;
 	}
 }
 .page-appear {
-	.header, .main {
-		transition: all .5s ease-in-out;
-		opacity: 1;
-	}
+	transition: opacity .5s ease-in-out;
+	opacity: 1;
+
 	.header {
+		transition: margin-top .5s ease-in-out;
 		margin-top: 0;
 	}
-},
+}
 .page-enter {
-	.header, .main {
-		transition: all .5s ease-in-out .8s;
-		opacity: 1;
-	}
+	transition: opacity .5s ease-in-out .8s;
+	opacity: 1;
+
 	.header {
+		transition: margin-top .5s ease-in-out .8s;
 		margin-top: 0;
 	}
 }
-
-
-
-/*
-.page-enter, .page-appear {
-	background: #ffe;
-
-	.header, .main {
-		transition: all .8s ease-in-out .8s;
-		opacity: 0;
-	}
-
-	.header {
-		margin-top: -80px;
-	}
-}
-
-.page-enter-active, .page-appear-active {
-	background: #fff;
-
-	.header, .main {
-		opacity: 1;
-	}
-
-	.header {
-		margin-top: 0;
-	}
-}
-
-.page-leave {
-	background: #fff;
-
-	.header, .main {
-		transition: all .8s ease-in-out;
-		opacity: 1;
-	}
-
-	.header {
-		margin-top: 0;
-	}
-}
-
-.page-leave-active {
-	background: #ffe;
-
-	.header, .main {
-		opacity: 0;
-	}
-
-	.header {
-		margin-top: -80px;
-	}
-}
-*/
 
 
 .main {
@@ -123,6 +66,8 @@ body {
 .container {
 	margin: 0 auto;
 	width: 940px;
+	/* 10px margin on both sides on 320px smartphone screen */
+	min-width: 300px;
 }
 
 @media screen and (min-width: 1200px) {
