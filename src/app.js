@@ -1,8 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
 import { Link, Router, Route, Redirect } from 'react-router';
 import BrowserHistory from 'react-router/lib/BrowserHistory'
 import Helmet from 'react-helmet';
+import { Spring, TransitionSpring } from 'react-motion';
 import './app.css';
+import RouteTransition from './route-transition'
+import HeaderTransition from './header-transition'
 
 // @todo alias to nothing with webpack in production
 import a11y from 'react-a11y';
@@ -10,8 +13,10 @@ a11y(React);
 
 class Header extends React.Component {
   render() {
+    let { style } = this.props;
+
     return (
-      <header className="header" role="banner">
+      <header className="header" role="banner" style={style}>
         <div className="container">
           <div className="row">
             <h1 className="logo col-xs-3">Logo</h1>
@@ -37,20 +42,12 @@ class Header extends React.Component {
 }
 
 class App extends React.Component {
-  renderChildren() {
-    return React.Children.map(this.props.children, (child) => {
-      return React.addons.cloneWithProps(child, {
-        key: this.props.location.pathname
-      });
-    });
-  }
-
   render() {
     return (
       <Helmet titleTemplate="%s | Metrolines">
-        <React.addons.TransitionGroup>
-          {this.renderChildren()}
-        </React.addons.TransitionGroup>
+        <HeaderTransition pathname={this.props.location.pathname}>
+          {this.props.children}
+        </HeaderTransition>
       </Helmet>
     );
   }
@@ -67,8 +64,8 @@ class Page extends React.Component {
     return (
       <div className={className}>
         <Helmet title={this.props.title} />
-        <Header />
-        <main className="main" role="main">
+        <Header style={this.props.headerStyle} />
+        <main className="main" role="main" style={this.props.mainStyle} >
           <div className="container">{this.props.children}</div>
         </main>
       </div>
@@ -118,22 +115,22 @@ function animate(prefix) {
   };
 }
 
-@animate('page')
+// @animate('page')
 class Shop extends React.Component {
   render() {
     return (
-      <Page title="Shop" {...this.props}>
+      <Page key="shop" title="Shop" {...this.props}>
         Shop
       </Page>
     );
   }
 }
 
-@animate('page')
+// @animate('page')
 class Cart extends React.Component {
   render() {
     return (
-      <Page title="Cart" {...this.props}>
+      <Page key="cart" title="Cart" {...this.props}>
         Cart
       </Page>
     );
